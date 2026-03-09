@@ -21,6 +21,32 @@ st.set_page_config(
     page_icon="🏋️",
     layout="wide",
 )
+# Initialize login session state
+if "logged_in" not in st.session_state:
+    st.session_state["logged_in"] = False
+
+# Define credentials (use hashed password)
+AUTHORIZED_USERNAME = "admin"
+AUTHORIZED_PASSWORD_HASH = hashlib.sha256("adminpass".encode()).hexdigest()
+
+def check_login(username, password):
+    return username == AUTHORIZED_USERNAME and hashlib.sha256(password.encode()).hexdigest() == AUTHORIZED_PASSWORD_HASH
+
+# Login form
+if not st.session_state["logged_in"]:
+    st.title("Login")
+    with st.form("login_form"):
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+        login_submit = st.form_submit_button("Login")
+        if login_submit:
+            if check_login(username, password):
+                st.session_state["logged_in"] = True
+                st.success("Logged in successfully!")
+                st.experimental_rerun()
+            else:
+                st.error("Invalid credentials")
+    st.stop()
 
 
 # -------------------------------------------------
