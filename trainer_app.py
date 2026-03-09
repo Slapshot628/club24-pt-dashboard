@@ -40,20 +40,17 @@ if not st.session_state["logged_in"]:
         password = st.text_input("Password", type="password")
         login_submit = st.form_submit_button("Login")
         if login_submit:
-           # After successful login
-if check_login(username, password):
-    st.session_state["logged_in"] = True
-    st.success("Logged in successfully!")
-    # Use experimental_rerun if available
-    try:
-        st.experimental_rerun()
-    except AttributeError:
-        st.stop()
+            if check_login(username, password):
+                st.session_state["logged_in"] = True
+                st.success("Logged in successfully!")
+                # Use experimental_rerun if available
+                try:
+                    st.experimental_rerun()
+                except AttributeError:
+                    st.stop()
             else:
                 st.error("Invalid credentials")
     st.stop()
-
-
 # -------------------------------------------------
 # CONSTANTS
 # -------------------------------------------------
